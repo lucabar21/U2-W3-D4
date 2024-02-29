@@ -1,40 +1,44 @@
-const staticURL = "https://api.pexels.com/v1/search?";
+const staticURL = "https://api.pexels.com/v1/photos/";
 
-const fetchData = (query) => {
-  const dynamicURL = `${staticURL}query=${encodeURIComponent(query)}`;
+const imgIdfromAddr = new URLSearchParams(new URL(window.location.href).search).get("id");
 
-  fetch(dynamicURL, {
-    method: "GET",
-    headers: { Authorization: "CkiwucNB2FLKOPLOSs3Gh3u0dE7HPaEvgDL3iOP2pfH3qmgOk6P8W797" },
+fetch(staticURL + imgIdfromAddr, {
+  method: "GET",
+  headers: { Authorization: "CkiwucNB2FLKOPLOSs3Gh3u0dE7HPaEvgDL3iOP2pfH3qmgOk6P8W797" },
+})
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Qualcosa è andato storto");
+    }
   })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Qualcosa è andato storto");
-      }
-    })
 
-    .then((imgData) => {
-      const myCardsContainer = document.getElementById("details-container");
-      myCardsContainer.innerHTML = "";
-      imgData.photos.forEach((img) => {
-        const imgPreview = document.createElement("img");
-        imgPreview.style = "width:100%; height:800px; object-fit: cover";
-        imgPreview.src = img.src.original;
+  .then((imgData) => {
+    console.log(imgData);
+    const myDetailsContainer = document.getElementById("details-container");
+    myDetailsContainer.innerHTML = "";
 
-        const iDText = document.createElement("span");
-        iDText.innerText = "ID:" + img.id;
+    const imgPreview = document.createElement("img");
+    imgPreview.style = "width:100%; height:800px; object-fit: cover";
+    imgPreview.src = imgData.src.original;
 
-        const auhtorText = document.createElement("span");
-        auhtorText.innerText = "Author:" + img.photographer;
+    const iDText = document.createElement("span");
+    iDText.innerText = "ID:" + imgData.id;
 
-        const auhtorURLText = document.createElement("span");
-        auhtorURLText.innerText = "Profile:" + img.photographer_url;
+    const auhtorText = document.createElement("span");
+    auhtorText.innerText = "Author:" + imgData.photographer;
 
-        const imgDescription = document.createElement("p");
-        imgDescription.innerText = "Description:" + img.alt;
-      });
-    })
-    .catch((err) => console.log(err));
-};
+    const auhtorURLText = document.createElement("span");
+    auhtorURLText.innerText = "Profile:" + imgData.photographer_url;
+
+    const imgDescription = document.createElement("p");
+    imgDescription.innerText = "Description:" + imgData.alt;
+
+    myDetailsContainer.appendChild(imgPreview);
+    myDetailsContainer.appendChild(iDText);
+    myDetailsContainer.appendChild(auhtorText);
+    myDetailsContainer.appendChild(auhtorURLText);
+    myDetailsContainer.appendChild(imgDescription);
+  })
+  .catch((err) => console.log(err));

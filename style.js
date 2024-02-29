@@ -31,6 +31,10 @@ const fetchData = (query) => {
         cardImg.style = "width:100%; height:500px; object-fit: cover";
         cardImg.src = data.src.portrait;
 
+        cardImg.addEventListener("click", () => {
+          window.location.href = `./details.html?id=${data.id}`;
+        });
+
         const cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
 
