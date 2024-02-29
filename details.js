@@ -20,20 +20,24 @@ fetch(staticURL + imgIdfromAddr, {
     myDetailsContainer.innerHTML = "";
 
     const imgPreview = document.createElement("img");
-    imgPreview.style = "width:100%; height:800px; object-fit: cover";
-    imgPreview.src = imgData.src.original;
+    imgPreview.style = "width:100%; height:500px; object-fit: cover";
+    imgPreview.src = imgData.src.large;
 
     const iDText = document.createElement("span");
     iDText.innerText = "ID:" + imgData.id;
+    iDText.style = "display:block; font-weight: bold";
 
     const auhtorText = document.createElement("span");
-    auhtorText.innerText = "Author:" + imgData.photographer;
+    auhtorText.innerText = "Author: " + imgData.photographer;
+    auhtorText.style = "display:block; font-weight: bold";
 
     const auhtorURLText = document.createElement("span");
-    auhtorURLText.innerText = "Profile:" + imgData.photographer_url;
+    auhtorURLText.innerText = "Profile: " + imgData.photographer_url;
+    auhtorURLText.style = "display:block; font-weight: bold";
 
     const imgDescription = document.createElement("p");
-    imgDescription.innerText = "Description:" + imgData.alt;
+    imgDescription.innerText = "Description: " + imgData.alt;
+    imgDescription.style = "display:block; font-weight: bold";
 
     myDetailsContainer.appendChild(imgPreview);
     myDetailsContainer.appendChild(iDText);
